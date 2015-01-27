@@ -7,37 +7,46 @@ import java.util.Random;
 
 public class Engine {
 
-	private static final int ValeurParDefautDesCase = -1;
-	static List<Integer> rl = new ArrayList<Integer>();
-	static final int Collone = 9;
-	static final int Ligne = 9;
-	public static int[][] grille = new int[9][9];
-	public static int[][] grilleResolved = new int[9][9];
-	static final int Dificulte = 50;
+	private final int ValeurParDefautDesCase = -1;
+	List<Integer> rl = new ArrayList<Integer>();
+	final int Collone = 9;
+	final int Ligne = 9;
+	private int[][] grille = new int[9][9];
+	private int[][] grilleResolved = new int[9][9];
+	final int Dificulte = 50;
 
 	public Engine() {
-
 	}
 
-	public static int[][] Grille() {
-		Random rand = new Random((new Date().getTime()));
-		StartGrid(grille);
-		while (!GenGrid(grille)) {
-			StartGrid(grille);
+	public void Gen() {
+
+		StartGrid(grilleResolved);
+		while (!GenGrid(grilleResolved)) {
+			StartGrid(grilleResolved);
 		}
-		grilleResolved = grille;
-		for (short k = 0; k < grille.length; k++) {
-			for (short j = 0; j < grille[k].length; j++) {
+	}
+
+	public void Hide() {
+		Random rand = new Random((new Date().getTime()));
+		for (short k = 0; k < grilleResolved.length; k++) {
+			for (short j = 0; j < grilleResolved[k].length; j++) {
 				if (rand.nextInt(100) < Dificulte) {
 
 					grille[k][j] = 0;
+				} else {
+					grille[k][j] = grilleResolved[k][j];
 				}
 
 			}
 
 		}
+	}
+
+	public int[][] PlayGrille() {
 		return grille;
 	}
+
+
 
 	public int[][] ResolvedGrid() {
 		return grilleResolved;
@@ -49,7 +58,7 @@ public class Engine {
 	 * @param grille
 	 *            La Grille de Jeux
 	 */
-	private static void StartGrid(int[][] grille) {
+	private void StartGrid(int[][] grille) {
 		for (short k = 0; k < grille.length; k++) {
 			for (short j = 0; j < grille[k].length; j++) {
 				grille[k][j] = ValeurParDefautDesCase;
@@ -64,7 +73,7 @@ public class Engine {
 	 *            Grille de Jeux
 	 * @return true si la grille est bonne
 	 */
-	protected static boolean GenGrid(int[][] grille) {
+	protected boolean GenGrid(int[][] grille) {
 		int failure = 0;
 		int rand;
 		Random randomGenerator = new Random((new Date().getTime()));
@@ -95,14 +104,14 @@ public class Engine {
 		return (failure == 0); // success if no failure
 	}
 
-	private static boolean CheckUniq(int rn, int[][] tab, int lign, int col) {
+	private boolean CheckUniq(int rn, int[][] tab, int lign, int col) {
 		return (Col(rn, tab, lign, col, 0, tab[lign].length)
 				&& Lign(rn, tab, lign, col, 0, tab.length) && Zone(rn, tab,
 					lign, col));
 	}
 
-	private static boolean Col(int rn, int[][] tab, int lign, int col,
-			int start, int end) {
+	private boolean Col(int rn, int[][] tab, int lign, int col, int start,
+			int end) {
 		// ligns before
 		for (int i = start; i < lign; i++) {
 			if (rn == tab[i][col])
@@ -116,7 +125,7 @@ public class Engine {
 		return true;
 	}
 
-	private static boolean Zone(int rn, int[][] tab, int lign, int col) {
+	private boolean Zone(int rn, int[][] tab, int lign, int col) {
 
 		int LigneDeZone = (lign / (Ligne / 3)) * Ligne / 3;
 
@@ -136,8 +145,8 @@ public class Engine {
 
 	}
 
-	private static boolean Lign(int rn, int[][] tab, int lign, int col,
-			int start, int end) {
+	private boolean Lign(int rn, int[][] tab, int lign, int col, int start,
+			int end) {
 		for (int i = start; i < col; i++) {
 			if (rn == tab[lign][i])
 				return false;
