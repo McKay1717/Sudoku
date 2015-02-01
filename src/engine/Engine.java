@@ -1,9 +1,19 @@
 package engine;
 
+import gui.JNumberTextField;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import javax.swing.JFormattedTextField;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class Engine {
 
@@ -14,6 +24,7 @@ public class Engine {
 	private int[][] grille = new int[9][9];
 	private int[][] grilleResolved = new int[9][9];
 	final int Dificulte = 50;
+	long saveNumber = System.currentTimeMillis() ;
 
 	public Engine() {
 	}
@@ -45,8 +56,6 @@ public class Engine {
 	public int[][] PlayGrille() {
 		return grille;
 	}
-
-
 
 	public int[][] ResolvedGrid() {
 		return grilleResolved;
@@ -82,14 +91,12 @@ public class Engine {
 			for (short j = 0; j < grille[k].length; j++) {
 				rl.clear();
 				do {
-					rand = randomGenerator.nextInt(Collone) + 1; // generate a
-																	// random
-																	// number
-					if (rl.contains(rand)) { // already tested
+					rand = randomGenerator.nextInt(Collone) + 1;
+					if (rl.contains(rand)) {
 						continue;
 					} else {
-						rl.add(rand); // add to alreadyDonelist
-						if (rl.size() == Collone) { // cancel if all tested
+						rl.add(rand);
+						if (rl.size() == Collone) {
 							rand = -1;
 							failure++;
 							break;
@@ -101,7 +108,7 @@ public class Engine {
 			}
 		}
 
-		return (failure == 0); // success if no failure
+		return (failure == 0);
 	}
 
 	private boolean CheckUniq(int rn, int[][] tab, int lign, int col) {
@@ -156,6 +163,44 @@ public class Engine {
 				return false;
 		}
 		return true;
+	}
+
+	public void Save() {
+	
+		BufferedWriter outputWriter = null;
+		BufferedWriter outputWriters = null;
+		
+		try {
+			outputWriter = new BufferedWriter(new FileWriter("Grille@"
+					+ saveNumber + ".txt"));
+			for (int i = 0; i < 9; i++) {
+				for (int j = 0; j < 9; j++) {
+
+					outputWriter.write(Integer.toString(grille[i][j]));
+					outputWriter.newLine();
+				}
+			}
+
+			outputWriter.flush();
+			outputWriter.close();
+			outputWriters = new BufferedWriter(new FileWriter("GrilleR@"
+					+ saveNumber + ".txt"));
+			for (int i = 0; i < 9; i++) {
+				for (int j = 0; j < 9; j++) {
+
+					outputWriters.write(Integer.toString(grilleResolved[i][j]));
+					outputWriters.newLine();
+				}
+			}
+
+			outputWriters.flush();
+			outputWriters.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }
