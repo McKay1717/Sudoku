@@ -1,19 +1,14 @@
 package engine;
 
-import gui.JNumberTextField;
-
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-
-import javax.swing.JFormattedTextField;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 public class Engine {
 
@@ -24,7 +19,6 @@ public class Engine {
 	private int[][] grille = new int[9][9];
 	private int[][] grilleResolved = new int[9][9];
 	final int Dificulte = 50;
-	long saveNumber = System.currentTimeMillis() ;
 
 	public Engine() {
 	}
@@ -165,14 +159,14 @@ public class Engine {
 		return true;
 	}
 
-	public void Save() {
+	public void Save(String saveName) {
 	
 		BufferedWriter outputWriter = null;
 		BufferedWriter outputWriters = null;
 		
 		try {
 			outputWriter = new BufferedWriter(new FileWriter("Grille@"
-					+ saveNumber + ".txt"));
+					+ saveName + ".txt"));
 			for (int i = 0; i < 9; i++) {
 				for (int j = 0; j < 9; j++) {
 
@@ -184,7 +178,7 @@ public class Engine {
 			outputWriter.flush();
 			outputWriter.close();
 			outputWriters = new BufferedWriter(new FileWriter("GrilleR@"
-					+ saveNumber + ".txt"));
+					+ saveName + ".txt"));
 			for (int i = 0; i < 9; i++) {
 				for (int j = 0; j < 9; j++) {
 
@@ -202,5 +196,42 @@ public class Engine {
 		}
 
 	}
+	public void Load(String saveName) {
+		
+		BufferedReader outputReader = null;
+		BufferedReader outputReaders = null;
+		
+		try {
+			outputReader = new BufferedReader(new FileReader("Grille@"
+					+ saveName + ".txt"));
+			for (int i = 0; i < 9; i++) {
+				for (int j = 0; j < 9; j++) {
+
+					grille[i][j] = Integer.parseInt(outputReader.readLine());
+					
+				}
+			}
+
+			outputReader.close();
+			outputReaders = new BufferedReader(new FileReader("GrilleR@"
+					+ saveName + ".txt"));
+			for (int i = 0; i < 9; i++) {
+				for (int j = 0; j < 9; j++) {
+
+
+					grilleResolved[i][j] = Integer.parseInt(outputReaders.readLine());
+				}
+			}
+
+			outputReaders.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	
 
 }

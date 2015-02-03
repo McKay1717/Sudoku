@@ -17,8 +17,7 @@ public class Graph extends JFrame {
 	Engine e = new Engine();
 
 	public Graph() {
-		e.Gen();
-		e.Hide();
+		e.Load("OKLM");
 		int[][] tab = e.PlayGrille();
 		// Titre
 		this.setTitle("Sudoku");
