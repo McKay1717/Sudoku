@@ -5,10 +5,20 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class Engine {
 
@@ -18,13 +28,24 @@ public class Engine {
 	final int Ligne = 9;
 	private int[][] grille = new int[9][9];
 	private int[][] grilleResolved = new int[9][9];
-	final int Dificulte = 50;
+	int Dificulte = 50;
+	Difficulty difEnum;
 
 	public Engine() {
 	}
 
-	public void Gen() {
-
+	public void Gen(Difficulty dif) {
+		switch (dif) {
+		case Facile:
+			this.Dificulte = 25;
+			break;
+		case Moyen:
+			this.Dificulte = 50;
+			break;
+		case Difficile:
+			this.Dificulte = 75;
+			break;
+		}
 		StartGrid(grilleResolved);
 		while (!GenGrid(grilleResolved)) {
 			StartGrid(grilleResolved);
@@ -160,10 +181,10 @@ public class Engine {
 	}
 
 	public void Save(String saveName) {
-	
+
 		BufferedWriter outputWriter = null;
 		BufferedWriter outputWriters = null;
-		
+
 		try {
 			outputWriter = new BufferedWriter(new FileWriter("Grille@"
 					+ saveName + ".txt"));
@@ -196,11 +217,12 @@ public class Engine {
 		}
 
 	}
+
 	public void Load(String saveName) {
-		
+
 		BufferedReader outputReader = null;
 		BufferedReader outputReaders = null;
-		
+
 		try {
 			outputReader = new BufferedReader(new FileReader("Grille@"
 					+ saveName + ".txt"));
@@ -208,7 +230,7 @@ public class Engine {
 				for (int j = 0; j < 9; j++) {
 
 					grille[i][j] = Integer.parseInt(outputReader.readLine());
-					
+
 				}
 			}
 
@@ -218,8 +240,8 @@ public class Engine {
 			for (int i = 0; i < 9; i++) {
 				for (int j = 0; j < 9; j++) {
 
-
-					grilleResolved[i][j] = Integer.parseInt(outputReaders.readLine());
+					grilleResolved[i][j] = Integer.parseInt(outputReaders
+							.readLine());
 				}
 			}
 
@@ -231,7 +253,109 @@ public class Engine {
 		}
 
 	}
-	
-	
+
+	public boolean LoadFromCloud(Difficulty dif) {
+
+		boolean result = false;
+		boolean SiteOnline = false;
+		String srvAddr = "https://files.darkube.net/torrent/Sudoku/";
+		String fileName = "";
+		String GridFolder = "";
+		int RemoteNbGrid = 0;
+		int SelectedGrid = -1;
+		Random rand = new Random();
+
+		switch (dif) {
+		case Facile:
+			fileName = "Easy.txt";
+			GridFolder = "Easy/";
+			break;
+		case Moyen:
+			fileName = "Medium.txt";
+			GridFolder = "Medium/";
+			break;
+		case Difficile:
+			fileName = "Hard.txt";
+			GridFolder = "Hard/";
+			break;
+		}
+
+		try {
+			URL siteURL = new URL(srvAddr);
+			HttpsURLConnection connection = (HttpsURLConnection) siteURL
+					.openConnection();
+			connection.setRequestMethod("GET");
+			connection.connect();
+
+			int code = connection.getResponseCode();
+			if (code == 200) {
+				SiteOnline = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(SiteOnline);
+
+		if (SiteOnline) {
+			try {
+				URL siteURL = new URL(srvAddr + fileName);
+				HttpsURLConnection connection = (HttpsURLConnection) siteURL
+						.openConnection();
+				connection.setRequestMethod("GET");
+				connection.connect();
+				BufferedReader outputReader = new BufferedReader(
+						new InputStreamReader(connection.getInputStream()));
+				RemoteNbGrid = Integer.parseInt(outputReader.readLine());
+				SelectedGrid = rand.nextInt(RemoteNbGrid);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		if (SelectedGrid != -1) {
+			try {
+				URL siteURL1 = new URL(srvAddr + GridFolder + "Grille@"
+						+ SelectedGrid + ".txt");
+				HttpsURLConnection connection1 = (HttpsURLConnection) siteURL1
+						.openConnection();
+				connection1.setRequestMethod("GET");
+				connection1.connect();
+				BufferedReader outputReader = new BufferedReader(
+						new InputStreamReader(connection1.getInputStream()));
+				for (int i = 0; i < 9; i++) {
+					for (int j = 0; j < 9; j++) {
+
+						grille[i][j] = Integer
+								.parseInt(outputReader.readLine());
+					}
+				}
+
+				URL siteURL2 = new URL(srvAddr + GridFolder + "GrilleR@"
+						+ SelectedGrid + ".txt");
+				HttpsURLConnection connection2 = (HttpsURLConnection) siteURL2
+						.openConnection();
+				connection2.setRequestMethod("GET");
+				connection2.connect();
+				BufferedReader outputReaders = new BufferedReader(
+						new InputStreamReader(connection2.getInputStream()));
+				for (int i = 0; i < 9; i++) {
+					for (int j = 0; j < 9; j++) {
+
+						grilleResolved[i][j] = Integer.parseInt(outputReaders
+								.readLine());
+					}
+				}
+				result = true;
+			} catch (Exception e) {
+				result = false;
+				e.printStackTrace();
+			}
+
+		}
+
+		return result;
+	}
 
 }
