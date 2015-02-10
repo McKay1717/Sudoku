@@ -10,6 +10,10 @@ import engine.Difficulty;
 import engine.Engine;
 
 public class Graph extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7643595700185614528L;
 	GridLayout gl = new GridLayout(9, 9);
 	Font police = new Font("Calibri", Font.BOLD, 60);
 
@@ -19,7 +23,6 @@ public class Graph extends JFrame {
 	
 
 	public Graph() {
-		e.Load("OKLM");
 		e.LoadFromCloud(Difficulty.Moyen);
 		int[][] tab = e.PlayGrille();
 		// Titre

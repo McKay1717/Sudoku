@@ -5,14 +5,8 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -285,6 +279,9 @@ public class Engine {
 			HttpsURLConnection connection = (HttpsURLConnection) siteURL
 					.openConnection();
 			connection.setRequestMethod("GET");
+			connection
+					.setRequestProperty("User-Agent",
+							"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
 			connection.connect();
 
 			int code = connection.getResponseCode();
@@ -302,6 +299,9 @@ public class Engine {
 				HttpsURLConnection connection = (HttpsURLConnection) siteURL
 						.openConnection();
 				connection.setRequestMethod("GET");
+				connection
+				.setRequestProperty("User-Agent",
+						"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
 				connection.connect();
 				BufferedReader outputReader = new BufferedReader(
 						new InputStreamReader(connection.getInputStream()));
@@ -320,6 +320,9 @@ public class Engine {
 						+ SelectedGrid + ".txt");
 				HttpsURLConnection connection1 = (HttpsURLConnection) siteURL1
 						.openConnection();
+				connection1
+				.setRequestProperty("User-Agent",
+						"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
 				connection1.setRequestMethod("GET");
 				connection1.connect();
 				BufferedReader outputReader = new BufferedReader(
@@ -337,6 +340,9 @@ public class Engine {
 				HttpsURLConnection connection2 = (HttpsURLConnection) siteURL2
 						.openConnection();
 				connection2.setRequestMethod("GET");
+				connection2
+				.setRequestProperty("User-Agent",
+						"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
 				connection2.connect();
 				BufferedReader outputReaders = new BufferedReader(
 						new InputStreamReader(connection2.getInputStream()));

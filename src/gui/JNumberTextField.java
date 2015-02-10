@@ -6,7 +6,11 @@ import javax.swing.text.*;
 
 public class JNumberTextField extends JTextField
 {
-    private static final char DOT = '.';
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1592348797907332103L;
+	private static final char DOT = '.';
     private static final char NEGATIVE = '-';
     private static final String BLANK = "";
     private static final int DEF_PRECISION = 2;
