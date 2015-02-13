@@ -19,10 +19,11 @@ public class Graph extends JFrame {
 
 	JNumberTextField jf[][] = new JNumberTextField[9][9];
 
-	Engine e = new Engine();
+	Engine e;
 	
 
-	public Graph() {
+	public Graph(Engine e) {
+		this.e = e;
 		e.LoadFromCloud(Difficulty.Moyen);
 		int[][] tab = e.PlayGrille();
 		// Titre

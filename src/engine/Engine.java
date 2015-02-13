@@ -241,9 +241,11 @@ public class Engine {
 
 			outputReaders.close();
 
+			System.out.println("Grille chargé en memoire ");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("File error : " + e.getMessage());
 		}
 
 	}
@@ -354,9 +356,11 @@ public class Engine {
 					}
 				}
 				result = true;
+				System.out
+				.println("Récupération terminé , Grille de jeux et solution chargé dans la memoire");
 			} catch (Exception e) {
 				result = false;
-				e.printStackTrace();
+				System.out.println("Erreur lors de la Récupération : "+e.getMessage() );
 			}
 
 		}
