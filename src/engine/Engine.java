@@ -45,7 +45,9 @@ public class Engine {
 			StartGrid(grilleResolved);
 		}
 	}
-
+/**
+ * Retire un % de nombre de la grille de manière aléatoire
+ */
 	public void Hide() {
 		Random rand = new Random((new Date().getTime()));
 		for (short k = 0; k < grilleResolved.length; k++) {
@@ -120,12 +122,30 @@ public class Engine {
 		return (failure == 0);
 	}
 
+	/**
+	 * Verifie si le nombre rn est valide pour la ligne , la colone et la zone ou il se trouve
+	 * @param rn le nombre à vérifier
+	 * @param tab la grille
+	 * @param lign la ligne actuelle
+	 * @param col la colone actuelle
+	 * @return
+	 */
 	private boolean CheckUniq(int rn, int[][] tab, int lign, int col) {
 		return (Col(rn, tab, lign, col, 0, tab[lign].length)
 				&& Lign(rn, tab, lign, col, 0, tab.length) && Zone(rn, tab,
 					lign, col));
 	}
 
+	/**
+	 * Verification par colone
+	 * @param rn Nombre à tester
+	 * @param tab La Grille 
+	 * @param lign la ligne actuelle
+	 * @param col la colone actuelle
+	 * @param start ou es que l'on commence la verification	
+	 * @param end Ou es qu'elle ce termine	
+	 * @return Si le nombre rn est valide pour cette colone
+	 */
 	private boolean Col(int rn, int[][] tab, int lign, int col, int start,
 			int end) {
 		// ligns before
@@ -140,7 +160,14 @@ public class Engine {
 		}
 		return true;
 	}
-
+/**
+ * Verification par zone 3x3		
+ * @param rn le nombre à verifier
+ * @param tab la grille
+ * @param lign la ligne actuelle
+ * @param col la colone actuelle
+ * @return Si le nombre rn est valide pour cette Zone 3x3
+ */
 	private boolean Zone(int rn, int[][] tab, int lign, int col) {
 
 		int LigneDeZone = (lign / (Ligne / 3)) * Ligne / 3;
@@ -161,6 +188,16 @@ public class Engine {
 
 	}
 
+	/**
+	 * Verification par ligne
+	 * @param rn Nombre à tester
+	 * @param tab La Grille 
+	 * @param lign la ligne actuelle
+	 * @param col la colone actuelle
+	 * @param start ou es que l'on commence la verification	
+	 * @param end Ou es qu'elle ce termine	
+	 * @return Si le nombre rn est valide pour cette ligne
+	 */
 	private boolean Lign(int rn, int[][] tab, int lign, int col, int start,
 			int end) {
 		for (int i = start; i < col; i++) {
@@ -174,6 +211,10 @@ public class Engine {
 		return true;
 	}
 
+	/**
+	 * Ecrit la grille dans fichier
+	 * @param saveName Nom de la Sauvegarde
+	 */
 	public void Save(String saveName) {
 
 		BufferedWriter outputWriter = null;
@@ -212,6 +253,10 @@ public class Engine {
 
 	}
 
+	/**
+	 * Charge une grille depuis un fichier
+	 * @param saveName Nom de la Sauvegarde
+	 */
 	public void Load(String saveName) {
 
 		BufferedReader outputReader = null;
@@ -249,7 +294,11 @@ public class Engine {
 		}
 
 	}
-
+/**
+ * Télécharge une grille depuis files.darkube.net
+ * @param dif La Difficule de la grille suivant l'enum Difficulty
+ * @return true si la récuperation est résusie 
+ */
 	public boolean LoadFromCloud(Difficulty dif) {
 
 		boolean result = false;
@@ -261,6 +310,9 @@ public class Engine {
 		int SelectedGrid = -1;
 		Random rand = new Random();
 
+		/**
+		 * Selection de la difficulté
+		 */
 		switch (dif) {
 		case Facile:
 			fileName = "Easy.txt";
@@ -276,7 +328,13 @@ public class Engine {
 			break;
 		}
 
+		/**
+		 * On verifie l'état du depot
+		 */
 		try {
+			/**
+			 * On initialise le client HTTPS
+			 */
 			URL siteURL = new URL(srvAddr);
 			HttpsURLConnection connection = (HttpsURLConnection) siteURL
 					.openConnection();
@@ -284,19 +342,29 @@ public class Engine {
 			connection
 					.setRequestProperty("User-Agent",
 							"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
+			/**
+			 * On recupère le code de réponce du serveur
+			 */
 			connection.connect();
 
 			int code = connection.getResponseCode();
 			if (code == 200) {
 				SiteOnline = true;
 			}
+			connection.disconnect();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println(SiteOnline);
 
+		/**
+		 * On recupère l'etat de la dernière verification , si le depot est en ligne on continue
+		 */
 		if (SiteOnline) {
 			try {
+				/**
+				 * On initialise le client HTTPS
+				 */
 				URL siteURL = new URL(srvAddr + fileName);
 				HttpsURLConnection connection = (HttpsURLConnection) siteURL
 						.openConnection();
@@ -305,10 +373,17 @@ public class Engine {
 				.setRequestProperty("User-Agent",
 						"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
 				connection.connect();
+				/**
+				 * On récupère le fichier index des grille et on le lit
+				 */
 				BufferedReader outputReader = new BufferedReader(
 						new InputStreamReader(connection.getInputStream()));
 				RemoteNbGrid = Integer.parseInt(outputReader.readLine());
+				/**
+				 * On choisie une grille alèatoire dans l'index
+				 */
 				SelectedGrid = rand.nextInt(RemoteNbGrid);
+				connection.disconnect();
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -318,6 +393,9 @@ public class Engine {
 
 		if (SelectedGrid != -1) {
 			try {
+				/**
+				 * On initialise le 1er client HTTPS
+				 */
 				URL siteURL1 = new URL(srvAddr + GridFolder + "Grille@"
 						+ SelectedGrid + ".txt");
 				HttpsURLConnection connection1 = (HttpsURLConnection) siteURL1
@@ -327,6 +405,9 @@ public class Engine {
 						"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
 				connection1.setRequestMethod("GET");
 				connection1.connect();
+				/**
+				 * On récupère la Grille de Jeux
+				 */
 				BufferedReader outputReader = new BufferedReader(
 						new InputStreamReader(connection1.getInputStream()));
 				for (int i = 0; i < 9; i++) {
@@ -337,6 +418,11 @@ public class Engine {
 					}
 				}
 
+				connection1.disconnect();
+				
+				/**
+				 * On initialise le 2eme client HTTPS
+				 */
 				URL siteURL2 = new URL(srvAddr + GridFolder + "GrilleR@"
 						+ SelectedGrid + ".txt");
 				HttpsURLConnection connection2 = (HttpsURLConnection) siteURL2
@@ -346,6 +432,9 @@ public class Engine {
 				.setRequestProperty("User-Agent",
 						"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
 				connection2.connect();
+				/**
+				 * On récupère la solution de la Grille de jeux
+				 */
 				BufferedReader outputReaders = new BufferedReader(
 						new InputStreamReader(connection2.getInputStream()));
 				for (int i = 0; i < 9; i++) {
@@ -358,6 +447,7 @@ public class Engine {
 				result = true;
 				System.out
 				.println("Récupération terminé , Grille de jeux et solution chargé dans la memoire");
+				connection2.disconnect();
 			} catch (Exception e) {
 				result = false;
 				System.out.println("Erreur lors de la Récupération : "+e.getMessage() );
