@@ -146,6 +146,33 @@ public class Main {
 					
 
 				}
+				/***
+				 * Dispalay Grid
+				 */
+				
+				if (str.contains("grid")) {
+					System.out.println("Grille de Jeux :");
+
+					for(int i =0;i<9;i++)
+					{
+						for(int z =0;z<9;z++)
+						{
+							System.out.print(engine.PlayGrille()[i][z]+ " ");
+						}
+						System.out.println();
+					}
+					System.out.println("Grille resolue:");
+					for(int j =0;j<9;j++)
+					{
+						for(int k =0;k<9;k++)
+						{
+							System.out.print(engine.ResolvedGrid()[j][k]+ " ");
+						}
+						System.out.println();
+					}
+
+
+				}
 
 			}
 			System.exit(0);
@@ -167,6 +194,8 @@ public class Main {
 				.println("Cloud:Difficulté - Charge Une Grille prégénérer depuis internet");
 		System.out
 				.println("gui - demarer l'interface Graphique et stop l'interface lingne de commande");
+		System.out
+		.println("grid - Affiche la grille et sa solution");
 		System.out.println("exit - fermer le programe");
 		System.out.println();
 		System.out.println("Difficulté Disponible :");
