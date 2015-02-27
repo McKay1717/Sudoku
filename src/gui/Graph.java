@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 
-import engine.Difficulty;
 import engine.Engine;
 
 public class Graph extends JFrame {
@@ -19,13 +18,13 @@ public class Graph extends JFrame {
 
 	JNumberTextField jf[][] = new JNumberTextField[9][9];
 
-	Engine e;
+	Engine en;
 	
 
 	public Graph(Engine e) {
-		this.e = e;
-		e.LoadFromCloud(Difficulty.Moyen);
-		int[][] tab = e.PlayGrille();
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.en = e;
+		int[][] tab = en.PlayGrille();
 		// Titre
 		this.setTitle("Sudoku");
 		// Taille

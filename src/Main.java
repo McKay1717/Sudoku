@@ -1,17 +1,28 @@
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+
 import engine.Difficulty;
 import engine.Engine;
 import gui.Graph;
+import gui.MenuPrincipal;
 
 public class Main {
 
 	public static void main(String[] args) {
 
 		Engine engine = new Engine();
+		
 		if (args.length == 0) {
-			Graph gui = new Graph(engine);
+			JFrame f = new JFrame();
+			MenuPrincipal gui = new MenuPrincipal(engine,f);
+			f.setContentPane(gui);
+			f.setSize(800, 300);
+			f.setTitle("Sudoku");
+			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 			gui.setVisible(true);
+			f.setVisible(true);
 		} else {
 			printHelp();
 			Scanner sc = new Scanner(System.in);
