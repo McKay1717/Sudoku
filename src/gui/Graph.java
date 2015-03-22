@@ -4,11 +4,11 @@ import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import engine.Engine;
 
-public class Graph extends JFrame {
+public class Graph extends JPanel {
 	/**
 	 * 
 	 */
@@ -19,14 +19,10 @@ public class Graph extends JFrame {
 	JNumberTextField jf[][] = new JNumberTextField[9][9];
 
 	Engine en;
-	
 
 	public Graph(Engine e) {
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.en = e;
 		int[][] tab = en.PlayGrille();
-		// Titre
-		this.setTitle("Sudoku");
 		// Taille
 		this.setSize(800, 800);
 		// Declaration de Style
@@ -48,7 +44,7 @@ public class Graph extends JFrame {
 					jf[i][j].setEditable(false);
 				}
 
-				this.getContentPane().add(jf[i][j]);
+				this.add(jf[i][j]);
 
 			}
 

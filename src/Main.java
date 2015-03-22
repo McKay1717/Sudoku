@@ -12,10 +12,10 @@ public class Main {
 	public static void main(String[] args) {
 
 		Engine engine = new Engine();
-		
+
 		if (args.length == 0) {
 			JFrame f = new JFrame();
-			MenuPrincipal gui = new MenuPrincipal(engine,f);
+			MenuPrincipal gui = new MenuPrincipal(engine, f);
 			f.setContentPane(gui);
 			f.setSize(800, 300);
 			f.setTitle("Sudoku");

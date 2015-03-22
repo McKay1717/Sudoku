@@ -18,7 +18,7 @@ public class JNumberTextField extends JTextField
     public static final int NUMERIC = 2;
     public static final int DECIMAL = 3;
 
-    public static final String FM_NUMERIC = "0123456789";
+    public static final String FM_NUMERIC = "123456789";
     public static final String FM_DECIMAL = FM_NUMERIC + DOT;
 
     private int maxLength = 0;

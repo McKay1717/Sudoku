@@ -1,5 +1,7 @@
 package engine;
 
+import gui.JNumberTextField;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.swing.JFormattedTextField;
 
 public class Engine {
 
@@ -45,9 +48,10 @@ public class Engine {
 			StartGrid(grilleResolved);
 		}
 	}
-/**
- * Retire un % de nombre de la grille de manière aléatoire
- */
+
+	/**
+	 * Retire un % de nombre de la grille de manière aléatoire
+	 */
 	public void Hide() {
 		Random rand = new Random((new Date().getTime()));
 		for (short k = 0; k < grilleResolved.length; k++) {
@@ -123,11 +127,17 @@ public class Engine {
 	}
 
 	/**
-	 * Verifie si le nombre rn est valide pour la ligne , la colone et la zone ou il se trouve
-	 * @param rn le nombre à vérifier
-	 * @param tab la grille
-	 * @param lign la ligne actuelle
-	 * @param col la colone actuelle
+	 * Verifie si le nombre rn est valide pour la ligne , la colone et la zone
+	 * ou il se trouve
+	 * 
+	 * @param rn
+	 *            le nombre à vérifier
+	 * @param tab
+	 *            la grille
+	 * @param lign
+	 *            la ligne actuelle
+	 * @param col
+	 *            la colone actuelle
 	 * @return
 	 */
 	private boolean CheckUniq(int rn, int[][] tab, int lign, int col) {
@@ -138,12 +148,19 @@ public class Engine {
 
 	/**
 	 * Verification par colone
-	 * @param rn Nombre à tester
-	 * @param tab La Grille 
-	 * @param lign la ligne actuelle
-	 * @param col la colone actuelle
-	 * @param start ou es que l'on commence la verification	
-	 * @param end Ou es qu'elle ce termine	
+	 * 
+	 * @param rn
+	 *            Nombre à tester
+	 * @param tab
+	 *            La Grille
+	 * @param lign
+	 *            la ligne actuelle
+	 * @param col
+	 *            la colone actuelle
+	 * @param start
+	 *            ou es que l'on commence la verification
+	 * @param end
+	 *            Ou es qu'elle ce termine
 	 * @return Si le nombre rn est valide pour cette colone
 	 */
 	private boolean Col(int rn, int[][] tab, int lign, int col, int start,
@@ -160,14 +177,20 @@ public class Engine {
 		}
 		return true;
 	}
-/**
- * Verification par zone 3x3		
- * @param rn le nombre à verifier
- * @param tab la grille
- * @param lign la ligne actuelle
- * @param col la colone actuelle
- * @return Si le nombre rn est valide pour cette Zone 3x3
- */
+
+	/**
+	 * Verification par zone 3x3
+	 * 
+	 * @param rn
+	 *            le nombre à verifier
+	 * @param tab
+	 *            la grille
+	 * @param lign
+	 *            la ligne actuelle
+	 * @param col
+	 *            la colone actuelle
+	 * @return Si le nombre rn est valide pour cette Zone 3x3
+	 */
 	private boolean Zone(int rn, int[][] tab, int lign, int col) {
 
 		int LigneDeZone = (lign / (Ligne / 3)) * Ligne / 3;
@@ -190,12 +213,19 @@ public class Engine {
 
 	/**
 	 * Verification par ligne
-	 * @param rn Nombre à tester
-	 * @param tab La Grille 
-	 * @param lign la ligne actuelle
-	 * @param col la colone actuelle
-	 * @param start ou es que l'on commence la verification	
-	 * @param end Ou es qu'elle ce termine	
+	 * 
+	 * @param rn
+	 *            Nombre à tester
+	 * @param tab
+	 *            La Grille
+	 * @param lign
+	 *            la ligne actuelle
+	 * @param col
+	 *            la colone actuelle
+	 * @param start
+	 *            ou es que l'on commence la verification
+	 * @param end
+	 *            Ou es qu'elle ce termine
 	 * @return Si le nombre rn est valide pour cette ligne
 	 */
 	private boolean Lign(int rn, int[][] tab, int lign, int col, int start,
@@ -213,7 +243,9 @@ public class Engine {
 
 	/**
 	 * Ecrit la grille dans fichier
-	 * @param saveName Nom de la Sauvegarde
+	 * 
+	 * @param saveName
+	 *            Nom de la Sauvegarde
 	 */
 	public void Save(String saveName) {
 
@@ -255,7 +287,9 @@ public class Engine {
 
 	/**
 	 * Charge une grille depuis un fichier
-	 * @param saveName Nom de la Sauvegarde
+	 * 
+	 * @param saveName
+	 *            Nom de la Sauvegarde
 	 */
 	public void Load(String saveName) {
 
@@ -294,16 +328,19 @@ public class Engine {
 		}
 
 	}
-/**
- * Télécharge une grille depuis files.darkube.net
- * @param dif La Difficule de la grille suivant l'enum Difficulty
- * @return true si la récuperation est résusie 
- */
+
+	/**
+	 * Télécharge une grille depuis files.darkube.net
+	 * 
+	 * @param dif
+	 *            La Difficule de la grille suivant l'enum Difficulty
+	 * @return true si la récuperation est résusie
+	 */
 	public boolean LoadFromCloud(Difficulty dif) {
 
 		boolean result = false;
 		boolean SiteOnline = false;
-		String srvAddr = "https://files.darkube.net/torrent/Sudoku/";
+		String srvAddr = "https://files.darkube.net/Sudoku/";
 		String fileName = "";
 		String GridFolder = "";
 		int RemoteNbGrid = 0;
@@ -335,7 +372,7 @@ public class Engine {
 			/**
 			 * On initialise le client HTTPS
 			 */
-			URL siteURL = new URL(srvAddr);
+			URL siteURL = new URL(srvAddr + "online.txt");
 			HttpsURLConnection connection = (HttpsURLConnection) siteURL
 					.openConnection();
 			connection.setRequestMethod("GET");
@@ -358,7 +395,8 @@ public class Engine {
 		System.out.println(SiteOnline);
 
 		/**
-		 * On recupère l'etat de la dernière verification , si le depot est en ligne on continue
+		 * On recupère l'etat de la dernière verification , si le depot est en
+		 * ligne on continue
 		 */
 		if (SiteOnline) {
 			try {
@@ -370,8 +408,8 @@ public class Engine {
 						.openConnection();
 				connection.setRequestMethod("GET");
 				connection
-				.setRequestProperty("User-Agent",
-						"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
+						.setRequestProperty("User-Agent",
+								"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
 				connection.connect();
 				/**
 				 * On récupère le fichier index des grille et on le lit
@@ -401,8 +439,8 @@ public class Engine {
 				HttpsURLConnection connection1 = (HttpsURLConnection) siteURL1
 						.openConnection();
 				connection1
-				.setRequestProperty("User-Agent",
-						"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
+						.setRequestProperty("User-Agent",
+								"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
 				connection1.setRequestMethod("GET");
 				connection1.connect();
 				/**
@@ -419,7 +457,7 @@ public class Engine {
 				}
 
 				connection1.disconnect();
-				
+
 				/**
 				 * On initialise le 2eme client HTTPS
 				 */
@@ -429,8 +467,8 @@ public class Engine {
 						.openConnection();
 				connection2.setRequestMethod("GET");
 				connection2
-				.setRequestProperty("User-Agent",
-						"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
+						.setRequestProperty("User-Agent",
+								"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
 				connection2.connect();
 				/**
 				 * On récupère la solution de la Grille de jeux
@@ -446,16 +484,44 @@ public class Engine {
 				}
 				result = true;
 				System.out
-				.println("Récupération terminé , Grille de jeux et solution chargé dans la memoire");
+						.println("Récupération terminé , Grille de jeux et solution chargé dans la memoire");
 				connection2.disconnect();
 			} catch (Exception e) {
 				result = false;
-				System.out.println("Erreur lors de la Récupération : "+e.getMessage() );
+				System.out.println("Erreur lors de la Récupération : "
+						+ e.getMessage());
 			}
 
 		}
 
 		return result;
+	}
+
+	public void check(JNumberTextField jf[][]) {
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				if (jf[i][j].getText().length() > 0) {
+					if (Integer.parseInt(jf[i][j].getText()) == this.grilleResolved[i][j]) {
+						jf[i][j].setEditable(false);
+					}
+				}
+
+			}
+
+		}
+
+	}
+
+	public void resolv(JNumberTextField jf[][]) {
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+
+				jf[i][j].setText("" + this.grilleResolved[i][j]);
+				jf[i][j].setEditable(false);
+
+			}
+
+		}
 	}
 
 }
