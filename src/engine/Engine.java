@@ -21,7 +21,7 @@ public class Engine {
 
 	private final int ValeurParDefautDesCase = -1;
 	List<Integer> rl = new ArrayList<Integer>();
-	final int Collone = 9;
+	final int Colonne = 9;
 	final int Ligne = 9;
 	private int[][] grille = new int[9][9];
 	private int[][] grilleResolved = new int[9][9];
@@ -32,6 +32,9 @@ public class Engine {
 	}
 
 	public void Gen(Difficulty dif) {
+		/*
+		 * Selection du % de case cache en 3 niveaux
+		 */
 		switch (dif) {
 		case Facile:
 			this.Dificulte = 25;
@@ -43,7 +46,13 @@ public class Engine {
 			this.Dificulte = 75;
 			break;
 		}
+		/*
+		 * On initialise la Génération 
+		 */
 		StartGrid(grilleResolved);
+		/*
+		 * Génére une serie de 81 nombre aléatoire , si ils sont conforme ou régle de sudoku GenGrid(grilleResolved) est vrai
+		 */
 		while (!GenGrid(grilleResolved)) {
 			StartGrid(grilleResolved);
 		}
@@ -68,16 +77,23 @@ public class Engine {
 		}
 	}
 
+	/**
+	 * Grille de jeux 
+	 * @return tableaux de 9*9 entier
+	 */
 	public int[][] PlayGrille() {
 		return grille;
 	}
-
+	/**
+	 * Grille de jeux résolue 
+	 * @return tableaux de 9*9 entier
+	 */
 	public int[][] ResolvedGrid() {
 		return grilleResolved;
 	}
 
 	/**
-	 * On remplie la grille de valuer -1
+	 * On Prepare la génération en remplissant la grille de -1
 	 * 
 	 * @param grille
 	 *            La Grille de Jeux
@@ -98,26 +114,51 @@ public class Engine {
 	 * @return true si la grille est bonne
 	 */
 	protected boolean GenGrid(int[][] grille) {
+		/*
+		 * Variable & inititialisation du générateur de nombre aléatoire
+		 */
 		int failure = 0;
 		int rand;
 		Random randomGenerator = new Random((new Date().getTime()));
 
+		/*
+		 * Boucle parcourant les 81 entier de la grille 
+		 *
+		 */
 		for (short k = 0; k < grille.length; k++) {
 			for (short j = 0; j < grille[k].length; j++) {
+				/*
+				 * On vide la liste d'entier 
+				 */
 				rl.clear();
 				do {
-					rand = randomGenerator.nextInt(Collone) + 1;
+					/*
+					 * Nombre alétoire +1 pour eviter -1
+					 */
+					rand = randomGenerator.nextInt(Colonne) + 1;
+					/*
+					 * Si la liste contiens le chiffre on passe au suivant 
+					 */
 					if (rl.contains(rand)) {
 						continue;
 					} else {
+						/*
+						 * Si non on ajouter l'entier aléatoire 
+						 */
 						rl.add(rand);
-						if (rl.size() == Collone) {
+						/*
+						 * Si la liste fait la taille de la colonne on réinitilise le nombre aléatoire et on arréte la boucle actuel
+						 */
+						if (rl.size() == Colonne) {
 							rand = -1;
 							failure++;
 							break;
 						}
 					}
-				} while (!CheckUniq(rand, grille, k, j));
+					/*
+					 * On lance la verification 
+					 */
+				} while (!CheckUniq(rand, grille, k, j)); 
 				grille[k][j] = rand;
 
 			}
@@ -165,12 +206,12 @@ public class Engine {
 	 */
 	private boolean Col(int rn, int[][] tab, int lign, int col, int start,
 			int end) {
-		// ligns before
+		// ligne avant
 		for (int i = start; i < lign; i++) {
 			if (rn == tab[i][col])
 				return false;
 		}
-		// ligns after
+		// ligne après
 		for (int i = lign; i < end - 1; i++) {
 			if (rn == tab[i][col])
 				return false;
@@ -197,9 +238,9 @@ public class Engine {
 
 		int LigneDeZone2 = LigneDeZone + Ligne / 3;
 
-		int ColoneDeZone = (col / (Collone / 3)) * Collone / 3;
+		int ColoneDeZone = (col / (Colonne / 3)) * Colonne / 3;
 
-		int ColoneDeZone2 = ColoneDeZone + Collone / 3;
+		int ColoneDeZone2 = ColoneDeZone + Colonne / 3;
 
 		for (int k = LigneDeZone; k < LigneDeZone2; k++) {
 			for (int j = ColoneDeZone; j < ColoneDeZone2; j++) {
