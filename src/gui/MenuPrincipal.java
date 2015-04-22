@@ -35,7 +35,7 @@ public class MenuPrincipal extends JPanel {
 	Font police2 = new Font("Calibri", Font.BOLD, 60);
 	JTextField jt = new JTextField();
 	JLabel jl = new JLabel("Nom de la Sauvegarde :");
-	JLabel jl2 = new JLabel("SUDOKU :D");
+	JLabel jl2 = new JLabel("SUDOKU");
 
 	public MenuPrincipal(Engine engine, JFrame f) {
 		this.setSize(800, 300);

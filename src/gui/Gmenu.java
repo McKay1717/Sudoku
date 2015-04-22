@@ -1,20 +1,20 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import engine.Difficulty;
 import engine.Engine;
 
 public class Gmenu extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1097523167911726307L;
 	JButton B1;
 	JButton B2;
 	JButton B3;

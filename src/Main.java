@@ -92,7 +92,7 @@ public class Main {
 				if (str.contains("save")) {
 					String[] strSplited = str.split(":");
 					if (strSplited.length == 2) {
-						engine.Save(strSplited[1]);
+						engine.SaveFromCMD(strSplited[1]);
 
 					} else {
 						System.out.println("Mauvaise Synthaxe");

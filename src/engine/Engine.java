@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.swing.JFormattedTextField;
+import javax.swing.JTextField;
 
 public class Engine {
 
@@ -47,11 +47,12 @@ public class Engine {
 			break;
 		}
 		/*
-		 * On initialise la Génération 
+		 * On initialise la Génération
 		 */
 		StartGrid(grilleResolved);
 		/*
-		 * Génére une serie de 81 nombre aléatoire , si ils sont conforme ou régle de sudoku GenGrid(grilleResolved) est vrai
+		 * Génére une serie de 81 nombre aléatoire , si ils sont conforme ou
+		 * régle de sudoku GenGrid(grilleResolved) est vrai
 		 */
 		while (!GenGrid(grilleResolved)) {
 			StartGrid(grilleResolved);
@@ -78,14 +79,17 @@ public class Engine {
 	}
 
 	/**
-	 * Grille de jeux 
+	 * Grille de jeux
+	 * 
 	 * @return tableaux de 9*9 entier
 	 */
 	public int[][] PlayGrille() {
 		return grille;
 	}
+
 	/**
-	 * Grille de jeux résolue 
+	 * Grille de jeux résolue
+	 * 
 	 * @return tableaux de 9*9 entier
 	 */
 	public int[][] ResolvedGrid() {
@@ -122,13 +126,12 @@ public class Engine {
 		Random randomGenerator = new Random((new Date().getTime()));
 
 		/*
-		 * Boucle parcourant les 81 entier de la grille 
-		 *
+		 * Boucle parcourant les 81 entier de la grille
 		 */
 		for (short k = 0; k < grille.length; k++) {
 			for (short j = 0; j < grille[k].length; j++) {
 				/*
-				 * On vide la liste d'entier 
+				 * On vide la liste d'entier
 				 */
 				rl.clear();
 				do {
@@ -137,17 +140,19 @@ public class Engine {
 					 */
 					rand = randomGenerator.nextInt(Colonne) + 1;
 					/*
-					 * Si la liste contiens le chiffre on passe au suivant 
+					 * Si la liste contiens le chiffre on passe au suivant
 					 */
 					if (rl.contains(rand)) {
 						continue;
 					} else {
 						/*
-						 * Si non on ajouter l'entier aléatoire 
+						 * Si non on ajouter l'entier aléatoire
 						 */
 						rl.add(rand);
 						/*
-						 * Si la liste fait la taille de la colonne on réinitilise le nombre aléatoire et on arréte la boucle actuel
+						 * Si la liste fait la taille de la colonne on
+						 * réinitilise le nombre aléatoire et on arréte la
+						 * boucle actuel
 						 */
 						if (rl.size() == Colonne) {
 							rand = -1;
@@ -156,9 +161,9 @@ public class Engine {
 						}
 					}
 					/*
-					 * On lance la verification 
+					 * On lance la verification
 					 */
-				} while (!CheckUniq(rand, grille, k, j)); 
+				} while (!CheckUniq(rand, grille, k, j));
 				grille[k][j] = rand;
 
 			}
@@ -288,7 +293,55 @@ public class Engine {
 	 * @param saveName
 	 *            Nom de la Sauvegarde
 	 */
-	public void Save(String saveName) {
+	public void SaveFromGUI(String saveName, JTextField jf[][]) {
+
+		BufferedWriter outputWriter = null;
+		BufferedWriter outputWriters = null;
+
+		try {
+			outputWriter = new BufferedWriter(new FileWriter("Grille@"
+					+ saveName + ".txt"));
+			for (int i = 0; i < 9; i++) {
+				for (int j = 0; j < 9; j++) {
+
+					if (jf[i][j].getText().length() > 0) {
+						outputWriter.write(jf[i][j].getText());
+					} else {
+						outputWriter.write("0");
+					}
+					outputWriter.newLine();
+				}
+			}
+
+			outputWriter.flush();
+			outputWriter.close();
+			outputWriters = new BufferedWriter(new FileWriter("GrilleR@"
+					+ saveName + ".txt"));
+			for (int i = 0; i < 9; i++) {
+				for (int j = 0; j < 9; j++) {
+
+					outputWriters.write(Integer.toString(grilleResolved[i][j]));
+					outputWriters.newLine();
+				}
+			}
+
+			outputWriters.flush();
+			outputWriters.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * Ecrit la grille dans fichier
+	 * 
+	 * @param saveName
+	 *            Nom de la Sauvegarde
+	 */
+	public void SaveFromCMD(String saveName) {
 
 		BufferedWriter outputWriter = null;
 		BufferedWriter outputWriters = null;
@@ -544,6 +597,9 @@ public class Engine {
 				if (jf[i][j].getText().length() > 0) {
 					if (Integer.parseInt(jf[i][j].getText()) == this.grilleResolved[i][j]) {
 						jf[i][j].setEditable(false);
+					} else {
+						jf[i][j].setText("");
+						;
 					}
 				}
 
@@ -563,6 +619,14 @@ public class Engine {
 			}
 
 		}
+	}
+	public void flushall()
+	{
+		this.rl = new ArrayList<Integer>();;
+		this.grille  = new int[9][9];;
+		this.grilleResolved  = new int[9][9];;
+		System.gc();
+		
 	}
 
 }

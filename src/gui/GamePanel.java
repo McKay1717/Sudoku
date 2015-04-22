@@ -1,13 +1,16 @@
 package gui;
 
-import java.awt.BorderLayout;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import engine.Engine;
 
 public class GamePanel extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2780369615464344633L;
 
 	public GamePanel(Engine engine, JFrame f) {
 		Graph g = new Graph(engine);

@@ -1,238 +1,336 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import javax.swing.*;
-import javax.swing.text.*;
+import javax.swing.JTextField;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.PlainDocument;
 
-public class JNumberTextField extends JTextField
-{
-    /**
+public class JNumberTextField extends JTextField implements MouseListener {
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1592348797907332103L;
 	private static final char DOT = '.';
-    private static final char NEGATIVE = '-';
-    private static final String BLANK = "";
-    private static final int DEF_PRECISION = 2;
+	private static final char NEGATIVE = '-';
+	private static final String BLANK = "";
+	private static final int DEF_PRECISION = 2;
 
-    public static final int NUMERIC = 2;
-    public static final int DECIMAL = 3;
+	public static final int NUMERIC = 2;
+	public static final int DECIMAL = 3;
 
-    public static final String FM_NUMERIC = "123456789";
-    public static final String FM_DECIMAL = FM_NUMERIC + DOT;
+	public static final String FM_NUMERIC = "123456789";
+	public static final String FM_DECIMAL = FM_NUMERIC + DOT;
 
-    private int maxLength = 0;
-    private int format = NUMERIC;
-    private String negativeChars = BLANK;
-    private String allowedChars = null;
-    private boolean allowNegative = false;
-    private int precision = 0;
+	private int maxLength = 0;
+	private int format = NUMERIC;
+	private String negativeChars = BLANK;
+	private String allowedChars = null;
+	private boolean allowNegative = false;
+	private int precision = 0;
 
-    protected PlainDocument numberFieldFilter;
+	private int x = -1;
+	private int y = -1;
+	JNumberTextField jf[][];
 
-    public JNumberTextField()
-    {
-        this( 10, NUMERIC );
-    }
+	protected PlainDocument numberFieldFilter;
 
-    public JNumberTextField( int maxLen )
-    {
-        this( maxLen, NUMERIC );
-    }
+	public JNumberTextField(int i, int j, JNumberTextField[][] jf) {
+		this(10, NUMERIC, i, j, jf);
+	}
 
-    public JNumberTextField( int maxLen, int format )
-    {
-        setAllowNegative( true );
-        setMaxLength( maxLen );
-        setFormat( format );
+	public JNumberTextField(int maxLen, int i, int j, JNumberTextField[][] jf) {
+		this(maxLen, NUMERIC, i, j, jf);
+	}
 
-        numberFieldFilter = new JNumberFieldFilter();
-        super.setDocument( numberFieldFilter );
-    }
+	public JNumberTextField(int maxLen, int format, int i, int j,
+			JNumberTextField[][] jf) {
+		setAllowNegative(false);
+		setMaxLength(maxLen);
+		setFormat(format);
+		this.addMouseListener(this);
+		numberFieldFilter = new JNumberFieldFilter();
+		super.setDocument(numberFieldFilter);
+		this.x = i;
+		this.y = j;
+		this.jf = jf;
 
-    public void setMaxLength( int maxLen )
-    {
-        if (maxLen > 0)
-            maxLength = maxLen;
-        else
-            maxLength = 0;
-    }
+	}
 
-    public int getMaxLength()
-    {
-        return maxLength;
-    }
+	public void setMaxLength(int maxLen) {
+		if (maxLen > 0)
+			maxLength = maxLen;
+		else
+			maxLength = 0;
+	}
 
-    public void setPrecision( int precision )
-    {
-        if ( format == NUMERIC )
-            return;
+	public int getMaxLength() {
+		return maxLength;
+	}
 
-        if ( precision >= 0 )
-            this.precision = precision;
-        else
-            this.precision = DEF_PRECISION;
-    }
+	public void setPrecision(int precision) {
+		if (format == NUMERIC)
+			return;
 
-    public int getPrecision()
-    {
-        return precision;
-    }
+		if (precision >= 0)
+			this.precision = precision;
+		else
+			this.precision = DEF_PRECISION;
+	}
 
-    public Number getNumber()
-    {
-        Number number = null;
+	public int getPrecision() {
+		return precision;
+	}
 
-        if ( format == NUMERIC )
-            number = new Integer(getText());
-        else
-            number = new Double(getText());
+	public Number getNumber() {
+		Number number = null;
 
-        return number;
-    }
+		if (format == NUMERIC)
+			number = new Integer(getText());
+		else
+			number = new Double(getText());
 
-    public void setNumber( Number value )
-    {
-        setText(String.valueOf(value));
-    }
+		return number;
+	}
 
-    public int getInt()
-    {
-        return Integer.parseInt( getText() );
-    }
+	public void setNumber(Number value) {
+		setText(String.valueOf(value));
+	}
 
-    public void setInt( int value )
-    {
-        setText( String.valueOf( value ) );
-    }
+	public int getInt() {
+		return Integer.parseInt(getText());
+	}
 
-    public float getFloat()
-    {
-        return ( new Float( getText() ) ).floatValue();
-    }
+	public void setInt(int value) {
+		setText(String.valueOf(value));
+	}
 
-    public void setFloat(float value)
-    {
-        setText( String.valueOf( value ) );
-    }
+	public float getFloat() {
+		return (new Float(getText())).floatValue();
+	}
 
-    public double getDouble()
-    {
-        return ( new Double( getText() ) ).doubleValue();
-    }
+	public void setFloat(float value) {
+		setText(String.valueOf(value));
+	}
 
-    public void setDouble(double value)
-    {
-        setText( String.valueOf(value) );
-    }
+	public double getDouble() {
+		return (new Double(getText())).doubleValue();
+	}
 
-    public int getFormat()
-    {
-        return format;
-    }
+	public void setDouble(double value) {
+		setText(String.valueOf(value));
+	}
 
-    public void setFormat(int format)
-    {
-        switch ( format )
-        {
-        case NUMERIC:
-        default:
-            this.format = NUMERIC;
-            this.precision = 0;
-            this.allowedChars = FM_NUMERIC;
-            break;
+	public int getFormat() {
+		return format;
+	}
 
-        case DECIMAL:
-            this.format = DECIMAL;
-            this.precision = DEF_PRECISION;
-            this.allowedChars = FM_DECIMAL;
-            break;
-        }
-    }
+	public void setFormat(int format) {
+		switch (format) {
+		case NUMERIC:
+		default:
+			this.format = NUMERIC;
+			this.precision = 0;
+			this.allowedChars = FM_NUMERIC;
+			break;
 
-    public void setAllowNegative( boolean value )
-    {
-        allowNegative = value;
+		case DECIMAL:
+			this.format = DECIMAL;
+			this.precision = DEF_PRECISION;
+			this.allowedChars = FM_DECIMAL;
+			break;
+		}
+	}
 
-        if ( value )
-            negativeChars = "" + NEGATIVE;
-        else
-            negativeChars = BLANK;
-    }
+	public void setAllowNegative(boolean value) {
+		allowNegative = value;
 
-    public boolean isAllowNegative()
-    {
-        return allowNegative;
-    }
+		if (value)
+			negativeChars = "" + NEGATIVE;
+		else
+			negativeChars = BLANK;
+	}
 
-    public void setDocument( Document document )
-    {
-    }
+	public boolean isAllowNegative() {
+		return allowNegative;
+	}
 
-    class JNumberFieldFilter extends PlainDocument
-    {
-        public JNumberFieldFilter()
-        {
-            super();
-        }
+	public void setDocument(Document document) {
+	}
 
-        public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException
-        {
-            String text = getText(0,offset) + str + getText(offset,(getLength() - offset));
+	class JNumberFieldFilter extends PlainDocument {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 4235161939309358477L;
 
-            if ( str == null || text == null )
-                return;
+		public JNumberFieldFilter() {
+			super();
+		}
 
-            for ( int i=0; i<str.length(); i++ )
-            {
-                if ( ( allowedChars + negativeChars ).indexOf( str.charAt(i) ) == -1)
-                    return;
-            }
+		public void insertString(int offset, String str, AttributeSet attr)
+				throws BadLocationException {
+			String text = getText(0, offset) + str
+					+ getText(offset, (getLength() - offset));
 
-            int precisionLength = 0, dotLength = 0, minusLength = 0;
-            int textLength = text.length();
+			if (str == null || text == null)
+				return;
 
-            try
-            {
-                if ( format == NUMERIC )
-                {
-                    if ( ! ( ( text.equals( negativeChars ) ) && ( text.length() == 1) ) )
-                        new Long(text);
-                }
-                else if ( format == DECIMAL )
-                {
-                    if ( ! ( ( text.equals( negativeChars ) ) && ( text.length() == 1) ) )
-                        new Double(text);
+			for (int i = 0; i < str.length(); i++) {
+				if ((allowedChars + negativeChars).indexOf(str.charAt(i)) == -1)
+					return;
+			}
 
-                    int dotIndex = text.indexOf(DOT);
-                    if( dotIndex != -1 )
-                    {
-                        dotLength = 1;
-                        precisionLength = textLength - dotIndex - dotLength;
+			int precisionLength = 0, dotLength = 0, minusLength = 0;
+			int textLength = text.length();
 
-                        if( precisionLength > precision )
-                            return;
-                    }
-                }
-            }
-            catch(Exception ex)
-            {
-                return;
-            }
+			try {
+				if (format == NUMERIC) {
+					if (!((text.equals(negativeChars)) && (text.length() == 1)))
+						new Long(text);
+				} else if (format == DECIMAL) {
+					if (!((text.equals(negativeChars)) && (text.length() == 1)))
+						new Double(text);
 
-            if ( text.startsWith( "" + NEGATIVE ) )
-            {
-                if ( !allowNegative )
-                    return;
-                else
-                    minusLength = 1;
-            }
+					int dotIndex = text.indexOf(DOT);
+					if (dotIndex != -1) {
+						dotLength = 1;
+						precisionLength = textLength - dotIndex - dotLength;
 
-            if ( maxLength < ( textLength - dotLength - precisionLength - minusLength ) )
-                return;
+						if (precisionLength > precision)
+							return;
+					}
+				}
+			} catch (Exception ex) {
+				return;
+			}
 
-            super.insertString( offset, str, attr );
-        }
-    }
+			if (text.startsWith("" + NEGATIVE)) {
+				if (!allowNegative)
+					return;
+				else
+					minusLength = 1;
+			}
+
+			if (maxLength < (textLength - dotLength - precisionLength - minusLength))
+				return;
+
+			super.insertString(offset, str, attr);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public void mouseEntered(MouseEvent e) {
+
+		int LigneDeZone = (x / (9 / 3)) * 9 / 3;
+
+		int LigneDeZone2 = LigneDeZone + 9 / 3;
+
+		int ColoneDeZone = (y / (9 / 3)) * 9 / 3;
+
+		int ColoneDeZone2 = ColoneDeZone + 9 / 3;
+		// TODO Auto-generated method stub
+		for (int k = LigneDeZone; k < LigneDeZone2; k++) {
+			for (int j = ColoneDeZone; j < ColoneDeZone2; j++) {
+				jf[k][j].setBackground(Color.cyan);
+			}
+		}
+		for (int g = 0; g < 9; g++) {
+			for (int h = 0; h < 9; h++) {
+				if (g == x) {
+					jf[g][h].setBackground(Color.red);
+
+				}
+			}
+		}
+		for (int b = 0; b < 9; b++) {
+			for (int c = 0; c < 9; c++) {
+				if (c == y) {
+					jf[b][c].setBackground(Color.yellow);
+
+				}
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public void mouseExited(MouseEvent e) {
+		int LigneDeZone = (x / (9 / 3)) * 9 / 3;
+
+		int LigneDeZone2 = LigneDeZone + 9 / 3;
+
+		int ColoneDeZone = (y / (9 / 3)) * 9 / 3;
+
+		int ColoneDeZone2 = ColoneDeZone + 9 / 3;
+		// TODO Auto-generated method stub
+		for (int k = LigneDeZone; k < LigneDeZone2; k++) {
+			for (int j = ColoneDeZone; j < ColoneDeZone2; j++) {
+				jf[k][j].setBackground(Color.white);
+			}
+		}
+		for (int g = 0; g < 9; g++) {
+			for (int h = 0; h < 9; h++) {
+				if (g == x) {
+					jf[g][h].setBackground(Color.white);
+
+				}
+			}
+		}
+		for (int b = 0; b < 9; b++) {
+			for (int c = 0; c < 9; c++) {
+				if (c == y) {
+					jf[b][c].setBackground(Color.white);
+
+				}
+			}
+		}
+
+	}
 }
-

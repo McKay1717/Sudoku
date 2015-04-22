@@ -3,11 +3,13 @@
  */
 package gui;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import engine.Engine;
@@ -18,6 +20,10 @@ import engine.Engine;
  */
 public class GDBouttons extends JButton implements MouseListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7924765683895663047L;
 	Engine eng;
 	JTextField jt;
 	JFrame f;
@@ -48,10 +54,13 @@ public class GDBouttons extends JButton implements MouseListener {
 			f.setVisible(false);
 			f.repaint();
 			f.setVisible(true);
+			eng.flushall();
+			
 
 			break;
 		case "Vérifier":
 			eng.check(g.jf);
+			JOptionPane.showMessageDialog(null, "Les mauvaise réponse on était retiré", "Information", JOptionPane.INFORMATION_MESSAGE);
 			break;
 
 		case "Résoudre":
@@ -60,7 +69,12 @@ public class GDBouttons extends JButton implements MouseListener {
 			break;
 		case "Sauvegarder":
 			if (jt.getText().length() > 0) {
-				eng.Save(jt.getText());
+				eng.SaveFromGUI(jt.getText(), g.jf);
+				jt.setBackground(Color.white);
+				JOptionPane.showMessageDialog(null, "Sauvegarde Effectué", "Information", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				jt.setBackground(Color.RED);
+				JOptionPane.showMessageDialog(null, "Vous devez remplir le champ en rouge", "Information", JOptionPane.ERROR_MESSAGE);
 			}
 			break;
 

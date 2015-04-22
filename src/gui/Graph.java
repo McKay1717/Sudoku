@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -25,6 +26,7 @@ public class Graph extends JPanel {
 		int[][] tab = en.PlayGrille();
 		// Taille
 		this.setSize(800, 800);
+		this.setBackground(Color.BLACK);
 		// Declaration de Style
 
 		gl.setHgap(5);
@@ -36,14 +38,15 @@ public class Graph extends JPanel {
 		// On ajoute les JtextField
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				jf[i][j] = new JNumberTextField(1);
+				jf[i][j] = new JNumberTextField(1,i,j,jf);
 				jf[i][j].setFont(police);
 				jf[i][j].setHorizontalAlignment(JFormattedTextField.CENTER);
 				if (tab[i][j] != 0) {
 					jf[i][j].setText("" + tab[i][j]);
 					jf[i][j].setEditable(false);
+					
 				}
-
+				jf[i][j].setBackground(Color.white);
 				this.add(jf[i][j]);
 
 			}
