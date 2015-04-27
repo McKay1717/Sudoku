@@ -47,12 +47,12 @@ public class Engine {
 			break;
 		}
 		/*
-		 * On initialise la Génération
+		 * On initialise la GÃ©nÃ©ration
 		 */
 		StartGrid(grilleResolved);
 		/*
-		 * Génére une serie de 81 nombre aléatoire , si ils sont conforme ou
-		 * régle de sudoku GenGrid(grilleResolved) est vrai
+		 * GÃ©nÃ©re une serie de 81 nombre alÃ©atoire , si ils sont conforme ou
+		 * rÃ©gle de sudoku GenGrid(grilleResolved) est vrai
 		 */
 		while (!GenGrid(grilleResolved)) {
 			StartGrid(grilleResolved);
@@ -60,7 +60,7 @@ public class Engine {
 	}
 
 	/**
-	 * Retire un % de nombre de la grille de manière aléatoire
+	 * Retire un % de nombre de la grille de maniÃ¨re alÃ©atoire
 	 */
 	public void Hide() {
 		Random rand = new Random((new Date().getTime()));
@@ -88,7 +88,7 @@ public class Engine {
 	}
 
 	/**
-	 * Grille de jeux résolue
+	 * Grille de jeux rÃ©solue
 	 * 
 	 * @return tableaux de 9*9 entier
 	 */
@@ -97,7 +97,7 @@ public class Engine {
 	}
 
 	/**
-	 * On Prepare la génération en remplissant la grille de -1
+	 * On Prepare la gÃ©nÃ©ration en remplissant la grille de -1
 	 * 
 	 * @param grille
 	 *            La Grille de Jeux
@@ -119,7 +119,7 @@ public class Engine {
 	 */
 	protected boolean GenGrid(int[][] grille) {
 		/*
-		 * Variable & inititialisation du générateur de nombre aléatoire
+		 * Variable & inititialisation du gÃ©nÃ©rateur de nombre alÃ©atoire
 		 */
 		int failure = 0;
 		int rand;
@@ -136,7 +136,7 @@ public class Engine {
 				rl.clear();
 				do {
 					/*
-					 * Nombre alétoire +1 pour eviter -1
+					 * Nombre alÃ©toire +1 pour eviter -1
 					 */
 					rand = randomGenerator.nextInt(Colonne) + 1;
 					/*
@@ -146,12 +146,12 @@ public class Engine {
 						continue;
 					} else {
 						/*
-						 * Si non on ajouter l'entier aléatoire
+						 * Si non on ajouter l'entier alÃ©atoire
 						 */
 						rl.add(rand);
 						/*
 						 * Si la liste fait la taille de la colonne on
-						 * réinitilise le nombre aléatoire et on arréte la
+						 * rÃ©initilise le nombre alÃ©atoire et on arrÃ©te la
 						 * boucle actuel
 						 */
 						if (rl.size() == Colonne) {
@@ -177,7 +177,7 @@ public class Engine {
 	 * ou il se trouve
 	 * 
 	 * @param rn
-	 *            le nombre à vérifier
+	 *            le nombre Ã  vÃ©rifier
 	 * @param tab
 	 *            la grille
 	 * @param lign
@@ -196,7 +196,7 @@ public class Engine {
 	 * Verification par colone
 	 * 
 	 * @param rn
-	 *            Nombre à tester
+	 *            Nombre Ã  tester
 	 * @param tab
 	 *            La Grille
 	 * @param lign
@@ -216,7 +216,7 @@ public class Engine {
 			if (rn == tab[i][col])
 				return false;
 		}
-		// ligne après
+		// ligne aprÃ¨s
 		for (int i = lign; i < end - 1; i++) {
 			if (rn == tab[i][col])
 				return false;
@@ -228,7 +228,7 @@ public class Engine {
 	 * Verification par zone 3x3
 	 * 
 	 * @param rn
-	 *            le nombre à verifier
+	 *            le nombre Ã  verifier
 	 * @param tab
 	 *            la grille
 	 * @param lign
@@ -261,7 +261,7 @@ public class Engine {
 	 * Verification par ligne
 	 * 
 	 * @param rn
-	 *            Nombre à tester
+	 *            Nombre Ã  tester
 	 * @param tab
 	 *            La Grille
 	 * @param lign
@@ -414,7 +414,7 @@ public class Engine {
 
 			outputReaders.close();
 
-			System.out.println("Grille chargé en memoire ");
+			System.out.println("Grille chargÃ© en memoire ");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -424,17 +424,17 @@ public class Engine {
 	}
 
 	/**
-	 * Télécharge une grille depuis files.darkube.net
+	 * TÃ©lÃ©charge une grille depuis https://sudoku.mckay1717.eu/
 	 * 
 	 * @param dif
 	 *            La Difficule de la grille suivant l'enum Difficulty
-	 * @return true si la récuperation est résusie
+	 * @return true si la rÃ©cuperation est rÃ©susie
 	 */
 	public boolean LoadFromCloud(Difficulty dif) {
 
 		boolean result = false;
 		boolean SiteOnline = false;
-		String srvAddr = "https://files.darkube.net/Sudoku/";
+		String srvAddr = "https://sudoku.mckay1717.eu/";
 		String fileName = "";
 		String GridFolder = "";
 		int RemoteNbGrid = 0;
@@ -442,7 +442,7 @@ public class Engine {
 		Random rand = new Random();
 
 		/**
-		 * Selection de la difficulté
+		 * Selection de la difficultÃ©
 		 */
 		switch (dif) {
 		case Facile:
@@ -460,7 +460,7 @@ public class Engine {
 		}
 
 		/**
-		 * On verifie l'état du depot
+		 * On verifie l'Ã©tat du depot
 		 */
 		try {
 			/**
@@ -474,7 +474,7 @@ public class Engine {
 					.setRequestProperty("User-Agent",
 							"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
 			/**
-			 * On recupère le code de réponce du serveur
+			 * On recupÃ¨re le code de rÃ©ponce du serveur
 			 */
 			connection.connect();
 
@@ -489,7 +489,7 @@ public class Engine {
 		System.out.println(SiteOnline);
 
 		/**
-		 * On recupère l'etat de la dernière verification , si le depot est en
+		 * On recupÃ¨re l'etat de la derniÃ¨re verification , si le depot est en
 		 * ligne on continue
 		 */
 		if (SiteOnline) {
@@ -506,13 +506,13 @@ public class Engine {
 								"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
 				connection.connect();
 				/**
-				 * On récupère le fichier index des grille et on le lit
+				 * On rÃ©cupÃ¨re le fichier index des grille et on le lit
 				 */
 				BufferedReader outputReader = new BufferedReader(
 						new InputStreamReader(connection.getInputStream()));
 				RemoteNbGrid = Integer.parseInt(outputReader.readLine());
 				/**
-				 * On choisie une grille alèatoire dans l'index
+				 * On choisie une grille alÃ¨atoire dans l'index
 				 */
 				SelectedGrid = rand.nextInt(RemoteNbGrid);
 				connection.disconnect();
@@ -538,7 +538,7 @@ public class Engine {
 				connection1.setRequestMethod("GET");
 				connection1.connect();
 				/**
-				 * On récupère la Grille de Jeux
+				 * On rÃ©cupÃ¨re la Grille de Jeux
 				 */
 				BufferedReader outputReader = new BufferedReader(
 						new InputStreamReader(connection1.getInputStream()));
@@ -565,7 +565,7 @@ public class Engine {
 								"Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
 				connection2.connect();
 				/**
-				 * On récupère la solution de la Grille de jeux
+				 * On rÃ©cupÃ¨re la solution de la Grille de jeux
 				 */
 				BufferedReader outputReaders = new BufferedReader(
 						new InputStreamReader(connection2.getInputStream()));
@@ -578,11 +578,11 @@ public class Engine {
 				}
 				result = true;
 				System.out
-						.println("Récupération terminé , Grille de jeux et solution chargé dans la memoire");
+						.println("RÃ©cupÃ©ration terminÃ© , Grille de jeux et solution chargÃ© dans la memoire");
 				connection2.disconnect();
 			} catch (Exception e) {
 				result = false;
-				System.out.println("Erreur lors de la Récupération : "
+				System.out.println("Erreur lors de la RÃ©cupÃ©ration : "
 						+ e.getMessage());
 			}
 
