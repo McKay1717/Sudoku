@@ -14,7 +14,7 @@ public class GamePanel extends JPanel {
 
 	public GamePanel(Engine engine, JFrame f) {
 		Graph g = new Graph(engine);
-		Gmenu gdb = new Gmenu(engine,f, g); 
+		Gmenu gdb = new Gmenu(engine, f, g);
 		g.setLocation(0, 0);
 		gdb.setLocation(820, 0);
 		g.setVisible(true);

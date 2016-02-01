@@ -18,7 +18,7 @@ import engine.Engine;
 
 /**
  * @author Marie
- *
+ * 
  */
 public class Boutton extends JButton implements MouseListener {
 
@@ -31,7 +31,8 @@ public class Boutton extends JButton implements MouseListener {
 	JFrame frame;
 	private JTextField saveName;
 
-	public Boutton(Engine engine, JComboBox<Difficulty> dif, JFrame f, JTextField s) {
+	public Boutton(Engine engine, JComboBox<Difficulty> dif, JFrame f,
+			JTextField s) {
 		this.eng = engine;
 		this.dificulte = dif;
 		this.addMouseListener(this);
@@ -51,7 +52,9 @@ public class Boutton extends JButton implements MouseListener {
 
 		switch (this.getText()) {
 		case "Grille Unique":
-			JOptionPane.showMessageDialog(null, "Grille en cours de génération ...", "Information", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"Grille en cours de gÃ©nÃ©ration ...", "Information",
+					JOptionPane.INFORMATION_MESSAGE);
 			this.setEnabled(false);
 			eng.Gen((Difficulty) dificulte.getSelectedItem());
 			eng.Hide();
@@ -91,7 +94,9 @@ public class Boutton extends JButton implements MouseListener {
 				saveName.setBackground(Color.white);
 			} else {
 				saveName.setBackground(Color.RED);
-				JOptionPane.showMessageDialog(null, "Vous devez remplir le champ en rouge", "Information", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,
+						"Vous devez remplir le champ en rouge", "Information",
+						JOptionPane.ERROR_MESSAGE);
 
 			}
 			break;

@@ -38,13 +38,13 @@ public class Graph extends JPanel {
 		// On ajoute les JtextField
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				jf[i][j] = new JNumberTextField(1,i,j,jf);
+				jf[i][j] = new JNumberTextField(1, i, j, jf);
 				jf[i][j].setFont(police);
 				jf[i][j].setHorizontalAlignment(JFormattedTextField.CENTER);
 				if (tab[i][j] != 0) {
 					jf[i][j].setText("" + tab[i][j]);
 					jf[i][j].setEditable(false);
-					
+
 				}
 				jf[i][j].setBackground(Color.white);
 				this.add(jf[i][j]);

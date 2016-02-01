@@ -21,15 +21,12 @@ public class Engine {
 
 	private final int ValeurParDefautDesCase = -1;
 	List<Integer> rl = new ArrayList<Integer>();
-	final int Colonne = 9;
-	final int Ligne = 9;
+	private final int Colonne = 9;
+	private final int Ligne = 9;
 	private int[][] grille = new int[9][9];
 	private int[][] grilleResolved = new int[9][9];
 	int Dificulte = 50;
 	Difficulty difEnum;
-
-	public Engine() {
-	}
 
 	public void Gen(Difficulty dif) {
 		/*
@@ -128,6 +125,7 @@ public class Engine {
 		/*
 		 * Boucle parcourant les 81 entier de la grille
 		 */
+		int test = 0;
 		for (short k = 0; k < grille.length; k++) {
 			for (short j = 0; j < grille[k].length; j++) {
 				/*
@@ -139,6 +137,7 @@ public class Engine {
 					 * Nombre alétoire +1 pour eviter -1
 					 */
 					rand = randomGenerator.nextInt(Colonne) + 1;
+					test++;
 					/*
 					 * Si la liste contiens le chiffre on passe au suivant
 					 */
@@ -164,6 +163,8 @@ public class Engine {
 					 * On lance la verification
 					 */
 				} while (!CheckUniq(rand, grille, k, j));
+				System.out.println(test);
+
 				grille[k][j] = rand;
 
 			}
@@ -620,13 +621,16 @@ public class Engine {
 
 		}
 	}
-	public void flushall()
-	{
-		this.rl = new ArrayList<Integer>();;
-		this.grille  = new int[9][9];;
-		this.grilleResolved  = new int[9][9];;
+
+	public void flushall() {
+		this.rl = new ArrayList<Integer>();
+		;
+		this.grille = new int[9][9];
+		;
+		this.grilleResolved = new int[9][9];
+		;
 		System.gc();
-		
+
 	}
 
 }

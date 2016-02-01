@@ -4,7 +4,6 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JButton;
@@ -19,7 +18,7 @@ import engine.Engine;
 
 /**
  * @author Marie
- *
+ * 
  */
 public class MenuPrincipal extends JPanel {
 
@@ -76,7 +75,7 @@ public class MenuPrincipal extends JPanel {
 		combo.addItem(Difficulty.Facile);
 		combo.addItem(Difficulty.Moyen);
 		combo.addItem(Difficulty.Difficile);
-		combo.setSize(new Dimension(200, 50));
+		combo.setSize(200, 50);
 		combo.setBackground(Color.cyan);
 		combo.setLocation(500, B1.getY());
 		combo.setFont(police);

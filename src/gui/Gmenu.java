@@ -21,21 +21,19 @@ public class Gmenu extends JPanel {
 	JButton B4;
 	Font police = new Font("Calibri", Font.BOLD, 20);
 	JTextField jt = new JTextField();
-	
 
 	public Gmenu(Engine engine, JFrame jf, Graph g) {
 		this.setSize(250, 800);
 		this.setLayout(null);
-		
 
-		B1 = new GDBouttons(engine, jt,jf,g);
-		B2 = new GDBouttons(engine, jt,jf,g);
-		B3 = new GDBouttons(engine, jt,jf,g);
-		B4 = new GDBouttons(engine, jt,jf,g);
+		B1 = new GDBouttons(engine, jt, jf, g);
+		B2 = new GDBouttons(engine, jt, jf, g);
+		B3 = new GDBouttons(engine, jt, jf, g);
+		B4 = new GDBouttons(engine, jt, jf, g);
 
 		B1.setText("Menu Principal");
-		B2.setText("Vérifier");
-		B3.setText("Résoudre");
+		B2.setText("VÃ©rifier");
+		B3.setText("RÃ©soudre");
 		B4.setText("Sauvegarder");
 
 		B1.setFont(police);
@@ -57,22 +55,12 @@ public class Gmenu extends JPanel {
 		jt.setFont(police);
 		jt.setLocation(B4.getX(), B4.getY() + B4.getHeight() + 10);
 
-		
-		
 		this.add(B1);
 		this.add(B2);
 		this.add(B3);
 		this.add(B4);
 		this.add(jt);
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 	}
 
 }

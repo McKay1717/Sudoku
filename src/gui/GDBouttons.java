@@ -16,7 +16,7 @@ import engine.Engine;
 
 /**
  * @author Marie
- *
+ * 
  */
 public class GDBouttons extends JButton implements MouseListener {
 
@@ -55,15 +55,16 @@ public class GDBouttons extends JButton implements MouseListener {
 			f.repaint();
 			f.setVisible(true);
 			eng.flushall();
-			
 
 			break;
-		case "Vérifier":
+		case "VÃ©rifier":
 			eng.check(g.jf);
-			JOptionPane.showMessageDialog(null, "Les mauvaise réponse on était retiré", "Information", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"Les mauvaise rÃ©ponse on Ã©tait retirÃ©", "Information",
+					JOptionPane.INFORMATION_MESSAGE);
 			break;
 
-		case "Résoudre":
+		case "RÃ©soudre":
 			eng.resolv(g.jf);
 
 			break;
@@ -71,10 +72,13 @@ public class GDBouttons extends JButton implements MouseListener {
 			if (jt.getText().length() > 0) {
 				eng.SaveFromGUI(jt.getText(), g.jf);
 				jt.setBackground(Color.white);
-				JOptionPane.showMessageDialog(null, "Sauvegarde Effectué", "Information", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Sauvegarde EffectuÃ©",
+						"Information", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 				jt.setBackground(Color.RED);
-				JOptionPane.showMessageDialog(null, "Vous devez remplir le champ en rouge", "Information", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,
+						"Vous devez remplir le champ en rouge", "Information",
+						JOptionPane.ERROR_MESSAGE);
 			}
 			break;
 
